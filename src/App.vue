@@ -136,7 +136,7 @@ export default {
         return {
           x: el.x,
           y: el.y,
-          value: val
+          value: 1 - val
         }
       });
 
