@@ -8,9 +8,9 @@
           transform: 'scale(' + point.value + ')'
         }" />
     </div>
-    <canvas id="canvas" width="40" height="30"></canvas>
-    <canvas id="backCanvas" width="40" height="30"></canvas>
-    <video id="video" width="40" height="30" autoplay></video>
+    <canvas id="canvas" width="64" height="48"></canvas>
+    <canvas id="backCanvas" width="64" height="48"></canvas>
+    <video id="video" width="64" height="48" autoplay></video>
   </div>
 </template>
 
@@ -95,9 +95,9 @@ export default {
   mounted() {
     const renderDataTmp = [];
 
-    for (var x = 0; x < 40; x++) {
-      for (var y = 0; y < 30; y++) {
-        renderDataTmp[x * 30 + y] = {
+    for (var x = 0; x < 64; x++) {
+      for (var y = 0; y < 48; y++) {
+        renderDataTmp[x * 48 + y] = {
           x: x,
           y: y,
           value: 0.25
@@ -125,11 +125,11 @@ export default {
   },
   methods: {
     snap() {
-      this.backCanvasCtx.drawImage(this.videoEl, 0, 0, 40, 30);
+      this.backCanvasCtx.drawImage(this.videoEl, 0, 0, 64, 48);
 
-      var apx = this.backCanvasCtx.getImageData(0, 0, 40, 30);
+      var apx = this.backCanvasCtx.getImageData(0, 0, 64, 48);
 
-      const arrayData = canvasDataToArray(apx.data, 40, 30);
+      const arrayData = canvasDataToArray(apx.data, 64, 48);
 
       this.renderData = arrayData.map(el => {
         const val = (el.r + el.g + el.b) / (255 * 3);
@@ -142,7 +142,7 @@ export default {
 
       /*
       RENDER TO CANVAS
-      const arrayData = canvasDataToArray(apx.data, 30, 40).map(el => {
+      const arrayData = canvasDataToArray(apx.data, 48, 64).map(el => {
         const brillance = el.r + el.g + el.b;
 
         if (brillance < 90 * 3) {
@@ -159,7 +159,7 @@ export default {
       });
 
 
-      const ctxData = arrayToCanvasData(arrayData, 30, 40);
+      const ctxData = arrayToCanvasData(arrayData, 48, 64);
 
       for (var w = apx.data.length; w; w--) {
         apx.data[w] = ctxData[w];
@@ -168,7 +168,7 @@ export default {
       this.canvasCtx.putImageData(apx, 0, 0)
       */
 
-      window.requestIdleCallback(this.snap)
+      window.requestAnimationFrame(this.snap)
     }
   }
 }
@@ -185,8 +185,8 @@ export default {
   }
 
   #render {
-    width: 400px;
-    height:300px;
+    width: 640px;
+    height:480px;
   }
 
   #backCanvas, #canvas {
